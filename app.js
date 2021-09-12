@@ -6,22 +6,11 @@ const app = express()
 app.set('view engine', 'ejs');
 
 app.get("/", function(req, res) {
+    
     let currentDate = new Date()
-    let currentDayNumber = currentDate.getDay()
-    let currentDayName = ""
-    console.log(`current date is : ${currentDate}`)
-
-    switch(currentDayNumber) {
-        case 0: currentDayName = "dimanche"; break
-        case 1: currentDayName = "lundi"; break
-        case 2: currentDayName = "mardi"; break
-        case 3: currentDayName = "mercredi"; break
-        case 4: currentDayName = "jeudi"; break
-        case 5: currentDayName = "vendredi"; break
-        case 6: currentDayName = "samedi"; break
-        default: currentDayName = "N/A"; console.log(`error... current day is number ${currentDayNumber} `)
-    }
-    res.render('list', {currentDayName : currentDayName})
+    let options = {weekday: "long", year: "numeric", month: "long", day: "numeric"}
+    let currentDateFormatted = currentDate.toLocaleDateString("fr-FR", options)
+    res.render('list', {currentDateFormatted : currentDateFormatted})
 })
 
 app.listen(port, function() {

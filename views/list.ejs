@@ -7,11 +7,6 @@
     <title>To do list app</title>
 </head>
 <body>
-
-    <% if(currentDayName === "samedi" || currentDayName === "dimanche") { %>
-        <h1 style="color: purple">Liste de <%=currentDayName%> !</h1>
-    <% } else { %> 
-        <h1 style="color: green">Liste de <%=currentDayName%> !</h1>
-    <% } %>
+    <h1>Liste du <%=currentDateFormatted%></h1>
 </body>
 </html>
