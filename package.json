@@ -1,0 +1,15 @@
+{
+  "name": "10-todolistv1",
+  "version": "1.0.0",
+  "description": "First version of web to do list app",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Maxime Traverse",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.12"
+  }
+}
