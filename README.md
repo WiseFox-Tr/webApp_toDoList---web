@@ -1,0 +1,1 @@
+This is a little project training consisting of making a web to do list app with EJS  
