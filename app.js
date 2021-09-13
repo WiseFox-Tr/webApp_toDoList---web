@@ -4,7 +4,8 @@ const port = 3000
 
 const app = express()
 app.use(express.urlencoded({extended: true}))
-app.set('view engine', 'ejs');
+app.use(express.static("public"))
+app.set('view engine', 'ejs')
 
 let tasksList = ["Faire du sport", "Coder du javascript", "Dessiner 1/4 d'heure"]
 
@@ -20,7 +21,6 @@ app.post("/", function(req, res) {
     const newTask = req.body.newTask
     console.log(`new task = ${newTask}`)
     tasksList.push(newTask)
-    console.log("task list = " + tasksList)
     res.redirect("/")
 })
 
