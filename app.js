@@ -13,7 +13,7 @@ app.get("/", function(req, res) {
     let currentDate = new Date()
     let options = {weekday: "long", year: "numeric", month: "long", day: "numeric"}
     let currentDateFormatted = currentDate.toLocaleDateString("fr-FR", options)
-    res.render('list', {currentDateFormatted : currentDateFormatted, tasksList : tasksList})
+    res.render('list', {listTitle : currentDateFormatted, tasksList : tasksList})
 })
 
 app.post("/", function(req, res) {
