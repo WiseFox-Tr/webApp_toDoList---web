@@ -94,3 +94,23 @@ footer {
   color: rgba(0, 0, 0, 0.5);
   text-align: center;
 }
+
+#menu {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 5px 0;
+}
+
+a {
+  color: #A683E3;
+  text-decoration: none;
+}
+
+a:visited {
+  text-decoration: none;
+}
+
+#about {
+  text-align: center;
+}
+
