@@ -1,5 +1,8 @@
 const express = require("express")
 const ejs = require("ejs")
+const { getCurrentDate } = require("./date")
+const date = require(__dirname + "/date.js")
+
 const port = 3000 
 
 const app = express()
@@ -7,13 +10,11 @@ app.use(express.urlencoded({extended: true}))
 app.use(express.static("public"))
 app.set('view engine', 'ejs')
 
-let tasksList = ["Faire du sport", "Coder du javascript", "Dessiner 1/4 d'heure"]
+const tasksList = ["Faire du sport", "Coder du javascript", "Dessiner 1/4 d'heure"]
 
 app.get("/", function(req, res) {
-    let currentDate = new Date()
-    let options = {weekday: "long", year: "numeric", month: "long", day: "numeric"}
-    let currentDateFormatted = currentDate.toLocaleDateString("fr-FR", options)
-    res.render('list', {listTitle : currentDateFormatted, tasksList : tasksList})
+    const currentDate = date.getCurrentDate()
+    res.render('list', {listTitle : currentDate, tasksList : tasksList})
 })
 
 app.post("/", function(req, res) {
