@@ -24,6 +24,10 @@ app.post("/", function(req, res) {
     res.redirect("/")
 })
 
+app.get("/about", function(req, res) {
+    res.render("about")
+})
+
 app.listen(port, function() {
     console.log(`Server started on port ${port}`)
 })
