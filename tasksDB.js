@@ -15,7 +15,6 @@ const itemSchema = mongoose.Schema({
 const ItemModel = mongoose.model("Item", itemSchema)
 
 exports.getTaskItems = function(res) {
-
     ItemModel.find({}, function(err, items) {
         if(err) {
             console.log("Unable to find task items")
@@ -26,9 +25,8 @@ exports.getTaskItems = function(res) {
 }
 
 exports.addTaskItem = function(newTask, res) {
-
     ItemModel({
-        name: newTask
+        name: newTask.trim()
     }).save(function (err) {
         if(err) {
             console.log(`adding new task ${newTask} failled`)
