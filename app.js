@@ -15,8 +15,7 @@ app.get("/", function(req, res) {
 })
 
 app.post("/", function(req, res) {
-    tasks.updateTaskList(req.body.newTask)
-    res.redirect("/")
+    tasksDB.addTaskItem(req.body.newTask, res)
 })
 
 app.get("/about", function(req, res) {

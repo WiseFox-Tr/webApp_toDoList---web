@@ -28,3 +28,17 @@ exports.getTaskItems = function(res) {
         }
     })   
 }
+
+exports.addTaskItem = function(newTask, res) {
+
+    const item = ItemModel({
+        name: newTask
+    }).save((e) => {
+        if(e) {
+            console.log(`adding new task ${newTask} failled`)
+        } else {
+            console.log(`adding new task ${newTask} succeed`)
+        }
+        res.redirect("/")
+    })
+}
