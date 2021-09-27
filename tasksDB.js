@@ -31,7 +31,7 @@ exports.getTaskItems = function(res) {
 
 exports.addTaskItem = function(newTask, res) {
 
-    const item = ItemModel({
+    ItemModel({
         name: newTask
     }).save((e) => {
         if(e) {
