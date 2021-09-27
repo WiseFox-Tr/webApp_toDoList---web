@@ -15,16 +15,12 @@ const itemSchema = mongoose.Schema({
 const ItemModel = mongoose.model("Item", itemSchema)
 
 exports.getTaskItems = function(res) {
-    const taskItems = []
 
     ItemModel.find({}, function(err, items) {
         if(err) {
             console.log("Unable to find task items")
         } else {
-            items.forEach(item => {
-                taskItems.push(item)
-            })
-            res.render('list', {listTitle : date.getCurrentDate(), tasksList : taskItems})
+            res.render('list', {listTitle : date.getCurrentDate(), tasksList : items})
         }
     })   
 }
