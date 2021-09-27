@@ -1,6 +1,5 @@
 const express = require("express")
 const ejs = require("ejs")
-const tasks = require(__dirname + "/tasks.js")
 const tasksDB = require(__dirname + "/tasksDB.js")
 
 const port = 3000 
@@ -16,6 +15,10 @@ app.get("/", function(req, res) {
 
 app.post("/", function(req, res) {
     tasksDB.addTaskItem(req.body.newTask, res)
+})
+
+app.post("/delete", function(req, res) {
+    tasksDB.deleteTaskItemById(req.body.check, res)
 })
 
 app.get("/about", function(req, res) {

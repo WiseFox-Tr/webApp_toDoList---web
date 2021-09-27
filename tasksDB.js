@@ -42,3 +42,14 @@ exports.addTaskItem = function(newTask, res) {
         res.redirect("/")
     })
 }
+
+exports.deleteTaskItemById = function(id, res) {
+    ItemModel.findByIdAndDelete(id, (e) => {
+        if(e) {
+            console.log(`Deleting item with id ${id} failled`)
+        } else {
+            console.log(`Deleting item with id ${id} succeed`)
+        }
+        res.redirect("/")
+    })
+}
