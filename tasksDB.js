@@ -29,7 +29,7 @@ exports.addTaskItem = function(newTask, res) {
 
     ItemModel({
         name: newTask
-    }).save((e) => {
+    }).save(function (e) {
         if(e) {
             console.log(`adding new task ${newTask} failled`)
         } else {
@@ -40,7 +40,7 @@ exports.addTaskItem = function(newTask, res) {
 }
 
 exports.deleteTaskItemById = function(id, res) {
-    ItemModel.findByIdAndDelete(id, (e) => {
+    ItemModel.findByIdAndDelete(id, function (e) {
         if(e) {
             console.log(`Deleting item with id ${id} failled`)
         } else {
