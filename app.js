@@ -1,7 +1,7 @@
 const express = require("express")
 const ejs = require("ejs")
-const date = require(__dirname + "/date.js")
 const tasks = require(__dirname + "/tasks.js")
+const tasksDB = require(__dirname + "/tasksDB.js")
 
 const port = 3000 
 
@@ -11,7 +11,7 @@ app.use(express.static("public"))
 app.set('view engine', 'ejs')
 
 app.get("/", function(req, res) {
-    res.render('list', {listTitle : date.getCurrentDate(), tasksList : tasks.getTasksList()})
+    tasksDB.getTaskItems(res)
 })
 
 app.post("/", function(req, res) {
