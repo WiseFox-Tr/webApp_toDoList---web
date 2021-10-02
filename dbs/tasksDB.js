@@ -1,9 +1,7 @@
 const mongoose = require("mongoose")
-const dbPort = 27017
-const dbName = "webToDoListDB" 
 
 exports.connectToDB = function(){
-    return mongoose.connect(`mongodb://localhost:${dbPort}/${dbName}`)
+    return mongoose.connect(`mongodb://localhost:${process.env.DB_PORT}/${process.env.DB_NAME}`)
 }
 
 exports.disconnectToDB = function(){
