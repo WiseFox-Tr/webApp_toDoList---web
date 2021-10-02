@@ -9,17 +9,29 @@ app.use(express.urlencoded({extended: true}))
 app.use(express.static("public"))
 app.set('view engine', 'ejs')
 
-app.get("/", function(req, res){
+app.get("/", function(req, res) {
     console.log("GET request on url '/'")
     res.render("home", {date: date.getCurrentDate()})
 })
 
+app.route("/register")
+    .get(function(req, res) {
+        console.log("GET request on url '/register'")
+        res.render("register")
+    })
+
+app.route("/login")
+    .get(function(req, res) {
+        console.log("GET request on url '/login'")
+        res.render("login")
+    })    
+
 app.route("/tasks")
-    .get(function(req, res){
+    .get(function(req, res) {
         console.log("GET request on url '/tasks'")
         tasksController.displayTasks(res) 
     })
-    .post(function(req, res){
+    .post(function(req, res) {
         console.log("POST request on url '/tasks'")
         tasksController.addNewTask(req.body.newTask, res)
     })
