@@ -30,13 +30,6 @@ exports.addNewTask = function(newTask) {
     }).save()
 }
 
-exports.deleteTaskItemById = function(id, res) {
-    ItemModel.findByIdAndDelete(id, function (err) {
-        if(err) {
-            console.log(`Deleting item with id ${id} failled`)
-        } else {
-            console.log(`Deleting item with id ${id} succeed`)
-        }
-        res.redirect("/")
-    })
+exports.deleteTaskById = function(id) {
+    return ItemModel.findByIdAndDelete(id).exec()
 }
