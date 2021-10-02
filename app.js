@@ -10,18 +10,18 @@ app.use(express.static("public"))
 app.set('view engine', 'ejs')
 
 app.get("/", function(req, res){
-    console.log("Get request on url '/'")
+    console.log("GET request on url '/'")
     res.send("Home tasks")
 })
 
 app.route("/tasks")
     .get(function(req, res){
-        console.log("Get request on url '/tasks'")
+        console.log("GET request on url '/tasks'")
         tasksController.displayTasks(res) 
     })
     .post(function(req, res){
-        //add new task -> from tasksController
-        // tasksDB.addTaskItem(req.body.newTask, res)
+        console.log("POST request on url '/tasks'")
+        tasksController.addNewTask(req.body.newTask, res)
     })
 
 app.post("/tasks/delete", function(req, res) {
