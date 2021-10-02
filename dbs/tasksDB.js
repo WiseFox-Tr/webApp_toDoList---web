@@ -1,9 +1,15 @@
-const date = require(__dirname + "/date.js")
-
 const mongoose = require("mongoose")
 const dbPort = 27017
 const dbName = "webToDoListDB" 
-mongoose.connect(`mongodb://localhost:${dbPort}/${dbName}`)
+
+exports.connectToDB = function(){
+    return mongoose.connect(`mongodb://localhost:${dbPort}/${dbName}`)
+}
+
+exports.disconnectToDB = function(){
+    mongoose.connection.close()
+}
+
 
 const itemSchema = mongoose.Schema({
     name: {
@@ -14,14 +20,8 @@ const itemSchema = mongoose.Schema({
 
 const ItemModel = mongoose.model("Item", itemSchema)
 
-exports.getTaskItems = function(res) {
-    ItemModel.find({}, function(err, items) {
-        if(err) {
-            console.log("Unable to find task items")
-        } else {
-            res.render('list', {listTitle : date.getCurrentDate(), tasksList : items})
-        }
-    })   
+exports.getTaskItems = function() {
+    return ItemModel.find({}).exec()  
 }
 
 exports.addTaskItem = function(newTask, res) {
