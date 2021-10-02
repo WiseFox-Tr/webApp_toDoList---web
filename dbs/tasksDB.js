@@ -24,17 +24,10 @@ exports.getTaskItems = function() {
     return ItemModel.find({}).exec()  
 }
 
-exports.addTaskItem = function(newTask, res) {
-    ItemModel({
-        name: newTask.trim()
-    }).save(function (err) {
-        if(err) {
-            console.log(`adding new task ${newTask} failled`)
-        } else {
-            console.log(`adding new task ${newTask} succeed`)
-        }
-        res.redirect("/")
-    })
+exports.addNewTask = function(newTask) {
+    return ItemModel({
+        name: newTask
+    }).save()
 }
 
 exports.deleteTaskItemById = function(id, res) {
