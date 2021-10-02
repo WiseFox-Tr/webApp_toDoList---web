@@ -7,9 +7,23 @@ exports.displayTasks = async function(res) {
         const tasksItems = await tasksDB.getTaskItems()
         res.render('list', {listTitle : date.getCurrentDate(), tasksList : tasksItems})
     } catch(e) {
-        console.log(e)
+        console.log(`Error - unable to load tasks list ! \n${e}`)
         res.send("Unable to load tasks list")
     } finally {
         tasksDB.disconnectToDB()
+    }
+}
+
+exports.addNewTask = async function(newTask, res) {
+    try {
+        if(!newTask) throw Error("Error task name field is empty")
+        await tasksDB.connectToDB()
+        await tasksDB.addNewTask(newTask.trim())
+        console.log(`task ${newTask} successfully added`)
+    } catch(e) {
+        console.log(`Error - adding new task failled ! \n${e}`)
+    } finally {
+        tasksDB.disconnectToDB()
+        res.redirect("/tasks")
     }
 }
