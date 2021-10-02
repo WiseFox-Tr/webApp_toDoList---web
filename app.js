@@ -1,8 +1,7 @@
+require("dotenv").config()
 const express = require("express")
 const ejs = require("ejs")
-const tasksController = require(__dirname + "/controllers/tasksController.js")
-
-const port = 3000 
+const tasksController = require(__dirname + "/controllers/tasksController.js") 
 
 const app = express()
 app.use(express.urlencoded({extended: true}))
@@ -33,6 +32,6 @@ app.get("/about", function(req, res) {
     res.render("about")
 })
 
-app.listen(port, function() {
-    console.log(`Server started on port ${port}`)
+app.listen(process.env.PORT, function() {
+    console.log(`Server started on port ${process.env.PORT}`)
 })
