@@ -1,6 +1,6 @@
 const express = require("express")
 const ejs = require("ejs")
-const tasksDB = require(__dirname + "/tasksDB.js")
+const tasksController = require(__dirname + "/controllers/tasksController.js")
 
 const port = 3000 
 
@@ -9,16 +9,24 @@ app.use(express.urlencoded({extended: true}))
 app.use(express.static("public"))
 app.set('view engine', 'ejs')
 
-app.get("/", function(req, res) {
-    tasksDB.getTaskItems(res)
+app.get("/", function(req, res){
+    console.log("Get request on url '/'")
+    res.send("Home tasks")
 })
 
-app.post("/", function(req, res) {
-    tasksDB.addTaskItem(req.body.newTask, res)
-})
+app.route("/tasks")
+    .get(function(req, res){
+        console.log("Get request on url '/tasks'")
+        tasksController.displayTasks(res) 
+    })
+    .post(function(req, res){
+        //add new task -> from tasksController
+        // tasksDB.addTaskItem(req.body.newTask, res)
+    })
 
-app.post("/delete", function(req, res) {
-    tasksDB.deleteTaskItemById(req.body.check, res)
+app.post("/tasks/delete", function(req, res) {
+    //delete specific task by checkbox on -> from tasksController
+    // tasksDB.deleteTaskItemById(req.body.check, res)
 })
 
 app.get("/about", function(req, res) {
