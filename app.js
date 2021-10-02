@@ -25,8 +25,8 @@ app.route("/tasks")
     })
 
 app.post("/tasks/delete", function(req, res) {
-    //delete specific task by checkbox on -> from tasksController
-    // tasksDB.deleteTaskItemById(req.body.check, res)
+    console.log("POST request on url '/tasks/delete'")
+    tasksController.deleteTaskById(req.body.check, res)
 })
 
 app.get("/about", function(req, res) {
