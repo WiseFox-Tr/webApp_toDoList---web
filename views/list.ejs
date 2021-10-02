@@ -1,8 +1,6 @@
-<%- include("header") -%>
-
-    <div class="box heading">
-        <h1><%=listTitle%></h1>
-    </div>
+<%- include('partials/header') %>
+    
+    <h1 class="box purple-box second-title"><%=listTitle%></h1>
 
     <div class="box">
         <%tasksList.forEach(task => { %> 
@@ -20,4 +18,4 @@
         </form>    
     </div>    
 
-<%- include("footer") -%>
+<%- include("partials/footer") -%>
