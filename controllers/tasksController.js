@@ -1,11 +1,10 @@
 const tasksDB = require("../dbs/tasksDB.js")
-const date = require("../date")
 
 exports.displayTasks = async function(res) {
     try {
         await tasksDB.connectToDB()
         const tasksItems = await tasksDB.getTaskItems()
-        res.render('list', {listTitle : date.getCurrentDate(), tasksList : tasksItems})
+        res.render('list', {listTitle : "Vos tâches", tasksList : tasksItems})
     } catch(e) {
         console.log(`Error - unable to load tasks list ! \n${e}`)
         res.send("Unable to load tasks list")
