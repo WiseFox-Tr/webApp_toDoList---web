@@ -27,3 +27,16 @@ exports.addNewTask = async function(newTask, res) {
         res.redirect("/tasks")
     }
 }
+
+exports.deleteTaskById = async function(taskId, res) {
+    try {
+        await tasksDB.connectToDB()
+        await tasksDB.deleteTaskById(taskId)
+        console.log(`Deleting task with id ${taskId} succeed !`)
+    } catch(e) {
+        console.log(`Deleting item with id ${taskId} failled ! \n${e}`)
+    } finally {
+        tasksDB.disconnectToDB()
+        res.redirect("/tasks")
+    }
+}
