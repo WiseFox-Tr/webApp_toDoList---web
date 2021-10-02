@@ -2,6 +2,7 @@ require("dotenv").config()
 const express = require("express")
 const ejs = require("ejs")
 const tasksController = require(__dirname + "/controllers/tasksController.js") 
+const date = require(__dirname + "/services/date.js")
 
 const app = express()
 app.use(express.urlencoded({extended: true}))
@@ -10,7 +11,7 @@ app.set('view engine', 'ejs')
 
 app.get("/", function(req, res){
     console.log("GET request on url '/'")
-    res.send("Home tasks")
+    res.render("home", {date: date.getCurrentDate()})
 })
 
 app.route("/tasks")
