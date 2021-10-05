@@ -8,6 +8,7 @@ const methodOverride = require("method-override")
 
 const tasksController = require("./controllers/tasksController.js") 
 const userController = require( "./controllers/userController.js")
+const userDB = require("./dbs/userDB.js")
 const initializePassport = require("./services/passportConfig.js")
 const date = require(__dirname + "/services/date.js")
 
@@ -32,10 +33,8 @@ app.use(methodOverride('_method')) //what we can override
 //initialize passport call with instance of passport & email id 
 initializePassport(
     passport,
-    email => users.find(user => user.email === email),
-    id => users.find(user => user.id === id)
+    id => userDB.getUserById(id)
 )
-
 
 app.get("/", function(req, res) {
     console.log("GET request on url '/'")
@@ -56,8 +55,13 @@ app.route("/login")
     .get(function(req, res) {
         console.log("GET request on url '/login'")
         res.render("login")
-    })    
-
+    })
+    .post(passport.authenticate('local', {
+        successRedirect: "/tasks",
+        failureRedirect: "/login",
+        failureFlash: true
+    }))
+    
 app.route("/tasks")
     .get(function(req, res) {
         console.log("GET request on url '/tasks'")
