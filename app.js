@@ -47,6 +47,10 @@ app.route("/register")
         console.log("GET request on url '/register'")
         res.render("register")
     })
+    .post(function(req, res) {
+        console.log("POST request on url '/register'")
+        userController.registerUser(req, res)
+    })
 
 app.route("/login")
     .get(function(req, res) {
