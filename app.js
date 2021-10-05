@@ -4,9 +4,11 @@ const ejs = require("ejs")
 const session = require("express-session")
 const passport = require("passport")
 const flash = require("express-flash")
+const methodOverride = require("method-override")
 
-const tasksController = require(__dirname + "/controllers/tasksController.js") 
-const userController = require(__dirname + "/controllers/userController.js")
+const tasksController = require("./controllers/tasksController.js") 
+const userController = require( "./controllers/userController.js")
+const initializePassport = require("./services/passportConfig.js")
 const date = require(__dirname + "/services/date.js")
 
 const app = express()
@@ -25,6 +27,14 @@ app.use(session({
 //initialize passport & use session with passport 
 app.use(passport.initialize())
 app.use(passport.session())
+app.use(methodOverride('_method')) //what we can override
+
+//initialize passport call with instance of passport & email id 
+initializePassport(
+    passport,
+    email => users.find(user => user.email === email),
+    id => users.find(user => user.id === id)
+)
 
 
 app.get("/", function(req, res) {
