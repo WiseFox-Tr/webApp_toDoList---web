@@ -1,13 +1,31 @@
 require("dotenv").config()
 const express = require("express")
 const ejs = require("ejs")
+const session = require("express-session")
+const passport = require("passport")
+const flash = require("express-flash")
+
 const tasksController = require(__dirname + "/controllers/tasksController.js") 
+const userController = require(__dirname + "/controllers/userController.js")
 const date = require(__dirname + "/services/date.js")
 
 const app = express()
 app.use(express.urlencoded({extended: true}))
 app.use(express.static("public"))
 app.set('view engine', 'ejs')
+
+app.use(flash())
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false, 
+    cookie: {maxAge: 100000} //set up timelife of cookie in milliseconds
+}))
+
+//initialize passport & use session with passport 
+app.use(passport.initialize())
+app.use(passport.session())
+
 
 app.get("/", function(req, res) {
     console.log("GET request on url '/'")
