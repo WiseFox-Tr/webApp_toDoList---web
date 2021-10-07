@@ -39,6 +39,26 @@ async function authenticateUser(email, password, done) {
     }
 }
 
+//middleware to check if user is currently authenticated
+function checkIfUserIsAuthentificated(req, res, next) {
+    if(req.isAuthenticated()) {
+        console.log("user is currently authenticated")
+        return next()
+    }
+    console.log("user is not authenticated")
+    res.redirect("/login")
+    
+}
+
+//middleware to check if user is currently NOT authenticated
+function checkIfUserIsNotAuthenticated(req, res, next) {
+    if(req.isAuthenticated()) {
+        console.log("user is already authenticated")
+        return res.redirect("/tasks")
+    } 
+    return next()
+}
+
 async function getUserById(id) {
     try {
         await commonDB.connectToDB()
@@ -52,5 +72,7 @@ async function getUserById(id) {
 module.exports = {
     registerUser,
     authenticateUser, 
-    getUserById
+    getUserById,
+    checkIfUserIsAuthentificated,
+    checkIfUserIsNotAuthenticated
 }

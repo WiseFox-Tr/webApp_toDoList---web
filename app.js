@@ -21,22 +21,23 @@ app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false, 
-    cookie: {maxAge: 100000}
+    cookie: {maxAge: 20000}
 }))
 
 //initialize passport & use session with passport 
 app.use(passport.initialize())
 app.use(passport.session())
-app.use(methodOverride('_method')) //what we can override
 initializePassport(passport)
 
-app.get("/", function(req, res) {
+app.use(methodOverride('_method'))
+
+app.get("/", userController.checkIfUserIsNotAuthenticated, function(req, res) {
     console.log("GET request on url '/'")
     res.render("home", {date: date.getCurrentDate()})
 })
 
 app.route("/register")
-    .get(function(req, res) {
+    .get(userController.checkIfUserIsNotAuthenticated, function(req, res) {
         console.log("GET request on url '/register'")
         res.render("register")
     })
@@ -46,7 +47,7 @@ app.route("/register")
     })
 
 app.route("/login")
-    .get(function(req, res) {
+    .get(userController.checkIfUserIsNotAuthenticated, function(req, res) {
         console.log("GET request on url '/login'")
         res.render("login")
     })
@@ -57,7 +58,7 @@ app.route("/login")
     }))
     
 app.route("/tasks")
-    .get(function(req, res) {
+    .get(userController.checkIfUserIsAuthentificated, function(req, res) {
         console.log("GET request on url '/tasks'")
         tasksController.displayTasks(res) 
     })
