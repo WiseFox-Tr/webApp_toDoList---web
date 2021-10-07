@@ -3,7 +3,7 @@ const passport = require("passport")
 const commonDB = require("../dbs/commonDB.js")
 const userDB = require("../dbs/userDB.js")
 
-async function registerUser (req, res) {
+exports.registerUser = async function (req, res) {
     try {
         await commonDB.connectToDB()
         console.log(`plain info mail : ${req.body.email} & pwd : ${req.body.password}`)
@@ -18,7 +18,7 @@ async function registerUser (req, res) {
 }
 
 //login method
-async function authenticateUser(email, password, done) {
+exports.authenticateUser = async function (email, password, done) {
     try {            
         await commonDB.connectToDB()
         const user = await userDB.getUserByEmail(email)
@@ -40,7 +40,7 @@ async function authenticateUser(email, password, done) {
 }
 
 //middleware to check if user is currently authenticated
-function checkIfUserIsAuthentificated(req, res, next) {
+exports.checkIfUserIsAuthentificated = function (req, res, next) {
     if(req.isAuthenticated()) {
         console.log("user is currently authenticated")
         return next()
@@ -51,7 +51,7 @@ function checkIfUserIsAuthentificated(req, res, next) {
 }
 
 //middleware to check if user is currently NOT authenticated
-function checkIfUserIsNotAuthenticated(req, res, next) {
+exports.checkIfUserIsNotAuthenticated = function (req, res, next) {
     if(req.isAuthenticated()) {
         console.log("user is already authenticated")
         return res.redirect("/tasks")
@@ -59,7 +59,7 @@ function checkIfUserIsNotAuthenticated(req, res, next) {
     return next()
 }
 
-async function getUserById(id) {
+exports.getUserById = async function (id) {
     try {
         await commonDB.connectToDB()
         await userDB.getUserById(id)
@@ -69,17 +69,8 @@ async function getUserById(id) {
     commonDB.disconnectToDB()
 }
 
-async function logOut(req, res) {
+exports.logOut = function (req, res) {
     req.logOut()
     console.log("User successfully log out")
     res.redirect("/")
-}
-
-module.exports = {
-    registerUser,
-    authenticateUser, 
-    getUserById,
-    checkIfUserIsAuthentificated,
-    checkIfUserIsNotAuthenticated,
-    logOut
 }
