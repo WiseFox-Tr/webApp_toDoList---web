@@ -5,11 +5,10 @@ const session = require("express-session")
 const passport = require("passport")
 const flash = require("express-flash")
 const methodOverride = require("method-override")
-
+const initializePassport = require("./services/passportConfig.js")
 const tasksController = require("./controllers/tasksController.js") 
 const userController = require( "./controllers/userController.js")
 const userDB = require("./dbs/userDB.js")
-const initializePassport = require("./services/passportConfig.js")
 const date = require(__dirname + "/services/date.js")
 
 const app = express()
@@ -22,19 +21,14 @@ app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false, 
-    cookie: {maxAge: 100000} //set up timelife of cookie in milliseconds
+    cookie: {maxAge: 100000}
 }))
 
 //initialize passport & use session with passport 
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(methodOverride('_method')) //what we can override
-
-//initialize passport call with instance of passport & email id 
-initializePassport(
-    passport,
-    id => userDB.getUserById(id)
-)
+initializePassport(passport)
 
 app.get("/", function(req, res) {
     console.log("GET request on url '/'")
