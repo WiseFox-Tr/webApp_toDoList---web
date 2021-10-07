@@ -8,7 +8,6 @@ const methodOverride = require("method-override")
 const initializePassport = require("./services/passportConfig.js")
 const tasksController = require("./controllers/tasksController.js") 
 const userController = require( "./controllers/userController.js")
-const userDB = require("./dbs/userDB.js")
 const date = require(__dirname + "/services/date.js")
 
 const app = express()
