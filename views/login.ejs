@@ -25,6 +25,11 @@
       </div>
     </div>
   </div>
+
+  <% if(messages.error) { %>
+    <div class="error-message"><%= messages.error %> </div> 
+  <% } %>
+
 </div>
 
 <%- include('partials/footer') %>

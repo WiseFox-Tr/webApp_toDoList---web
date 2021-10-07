@@ -135,3 +135,8 @@ a:visited {
 #about {
   text-align: center;
 }
+
+.error-message {
+  padding: 15px;
+  color: #4a0000;
+}
