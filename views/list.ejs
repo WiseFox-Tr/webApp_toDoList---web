@@ -15,7 +15,14 @@
         <form class="item" action="/tasks" method="POST">
             <input type="text" id="newTask" name="newTask" required minlength="3" maxlength="30" placeholder="nouvelle tâche" autocomplete="off">
             <button type="submit" id="submit" name="submit">+</button>
-        </form>    
-    </div>    
+        </form>   
+    </div>   
+
+    <div class="centered">
+        <!-- action '/logout?_method=DELETE' -> from method-override package -->
+        <form action="/logout?_method=DELETE" method="POST">
+            <button type="submit" class="btn btn-lg btn-warning">Log out</button>
+        </form>
+    </div>
 
 <%- include("partials/footer") -%>
