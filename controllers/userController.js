@@ -69,10 +69,17 @@ async function getUserById(id) {
     commonDB.disconnectToDB()
 }
 
+async function logOut(req, res) {
+    req.logOut()
+    console.log("User successfully log out")
+    res.redirect("/")
+}
+
 module.exports = {
     registerUser,
     authenticateUser, 
     getUserById,
     checkIfUserIsAuthentificated,
-    checkIfUserIsNotAuthenticated
+    checkIfUserIsNotAuthenticated,
+    logOut
 }

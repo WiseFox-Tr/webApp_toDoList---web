@@ -21,7 +21,7 @@ app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false, 
-    cookie: {maxAge: 20000}
+    cookie: {maxAge: 1_200_000}
 }))
 
 //initialize passport & use session with passport 
@@ -56,6 +56,12 @@ app.route("/login")
         failureRedirect: "/login",
         failureFlash: true
     }))
+
+app.route("/logout")
+    .delete(userController.checkIfUserIsAuthentificated, (req, res) => {
+        console.log("DELETE request on url '/logout'")
+        userController.logOut(req, res)
+    })    
     
 app.route("/tasks")
     .get(userController.checkIfUserIsAuthentificated, function(req, res) {
