@@ -6,9 +6,11 @@ const regex = require("../services/regex.js")
 exports.registerUser = async function (req, res) {
     const email = req.body.email
     const password = req.body.password
+    const passwordConfirmation = req.body.passwordConfirmation
     try {
         if(!email || !password) throw Error("Missing email or password")
         if(!regex.isPasswordEnoughStrong(password)) throw Error("Password is too weak...")
+        if(password !== passwordConfirmation) throw Error("Passwords are not matching")
 
         await commonDB.connectToDB()
         await userDB.saveUser(email, await bcrypt.hash(password, 10))
