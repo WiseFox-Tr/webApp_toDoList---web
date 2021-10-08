@@ -1,14 +1,17 @@
 const bcrypt = require("bcrypt")
-const passport = require("passport")
 const commonDB = require("../dbs/commonDB.js")
 const userDB = require("../dbs/userDB.js")
+const regex = require("../services/regex.js")
 
 exports.registerUser = async function (req, res) {
+    const email = req.body.email
+    const password = req.body.password
     try {
-        if(!req.body.email || !req.body.password) throw Error("Missing email or password")
+        if(!email || !password) throw Error("Missing email or password")
+        if(!regex.isPasswordEnoughStrong(password)) throw Error("Password is too weak...")
+
         await commonDB.connectToDB()
-        console.log(`plain info mail : ${req.body.email} & pwd : ${req.body.password}`)
-        await userDB.saveUser(req.body.email, await bcrypt.hash(req.body.password, 10))
+        await userDB.saveUser(email, await bcrypt.hash(password, 10))
         res.redirect("/login")
     } catch(e) {
         console.log(`register error : ${e}`)
