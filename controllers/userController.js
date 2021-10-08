@@ -5,6 +5,7 @@ const userDB = require("../dbs/userDB.js")
 
 exports.registerUser = async function (req, res) {
     try {
+        if(!req.body.email || !req.body.password) throw Error("Missing email or password")
         await commonDB.connectToDB()
         console.log(`plain info mail : ${req.body.email} & pwd : ${req.body.password}`)
         await userDB.saveUser(req.body.email, await bcrypt.hash(req.body.password, 10))
