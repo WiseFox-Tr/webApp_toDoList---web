@@ -65,16 +65,16 @@ app.route("/logout")
 app.route("/tasks")
     .get(userController.checkIfUserIsAuthentificated, function(req, res) {
         console.log("GET request on url '/tasks'")
-        tasksController.displayTasks(res) 
+        tasksController.displayTasksForCurrentUser(req, res) 
     })
     .post(function(req, res) {
         console.log("POST request on url '/tasks'")
-        tasksController.addNewTask(req.body.newTask, res)
+        tasksController.addNewTask(req, res)
     })
 
 app.post("/tasks/delete", function(req, res) {
     console.log("POST request on url '/tasks/delete'")
-    tasksController.deleteTaskById(req.body.check, res)
+    tasksController.deleteTaskById(req, res)
 })
 
 app.get("/about", function(req, res) {
