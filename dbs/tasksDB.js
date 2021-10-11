@@ -1,24 +1,33 @@
 const mongoose = require("mongoose")
 
-const itemSchema = mongoose.Schema({
+const taskSchema = mongoose.Schema({
     name: {
         type: String,
         required: [true, "A name must be provided"]
+    },
+    owner: {
+        type: String,
+        required: [true, "A task must have an owner"]
     }
 })
 
-const ItemModel = mongoose.model("Item", itemSchema)
+const TaskModel = mongoose.model("Task", taskSchema)
 
-exports.getTaskItems = function() {
-    return ItemModel.find({}).exec()  
+exports.getAllTasks = function() {
+    return TaskModel.find({}).exec()  
 }
 
-exports.addNewTask = function(newTask) {
-    return ItemModel({
-        name: newTask
+exports.getTaskByOwnerId = function(ownerId) {
+    return TaskModel.find({owner: ownerId})
+}
+
+exports.addNewTask = function(newTask, ownerId) {
+    return TaskModel({
+        name: newTask,
+        owner: ownerId
     }).save()
 }
 
 exports.deleteTaskById = function(id) {
-    return ItemModel.findByIdAndDelete(id).exec()
+    return TaskModel.findByIdAndDelete(id).exec()
 }
