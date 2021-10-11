@@ -74,7 +74,7 @@ app.route("/tasks")
 
 app.post("/tasks/delete", function(req, res) {
     console.log("POST request on url '/tasks/delete'")
-    tasksController.deleteTaskById(req, res)
+    tasksController.deleteCheckedTask(req, res)
 })
 
 app.get("/about", function(req, res) {

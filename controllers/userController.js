@@ -65,7 +65,7 @@ exports.checkIfUserIsNotAuthenticated = function (req, res, next) {
     return next()
 }
 
-exports.getUserById = async function (id) {
+exports.findUser = async function (id) {
     let currentUser = null
     try {
         await commonDB.connectToDB()

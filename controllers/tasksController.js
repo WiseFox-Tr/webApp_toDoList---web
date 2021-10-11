@@ -5,11 +5,12 @@ exports.displayTasksForCurrentUser = async function(req, res) {
     const ownerId = req.user._id
     try {
         await commonDB.connectToDB()
-        const tasks = await tasksDB.getTaskByOwnerId(ownerId)
+        const tasks = await tasksDB.getTasksByOwnerId(ownerId)
         res.render('list', {listTitle : "Vos tâches", tasksList : tasks})
     } catch(e) {
         console.log(`Error - unable to load tasks list ! \n${e}`)
         res.send("Unable to load tasks list")
+        //todo - make an error page
     } finally {
         commonDB.disconnectToDB()
     }
@@ -31,7 +32,7 @@ exports.addNewTask = async function(req, res) {
     }
 }
 
-exports.deleteTaskById = async function(req, res) {
+exports.deleteCheckedTask = async function(req, res) {
     const taskId = req.body.check
     try {
         await commonDB.connectToDB()
