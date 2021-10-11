@@ -3,11 +3,11 @@ const mongoose = require("mongoose")
 const taskSchema = mongoose.Schema({
     name: {
         type: String,
-        required: [true, "A name must be provided"]
+        required: [true, "A name should be provided"]
     },
     owner: {
         type: String,
-        required: [true, "A task must have an owner"]
+        required: [true, "A task should have an owner"]
     }
 })
 
