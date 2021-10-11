@@ -1,0 +1,5 @@
+exports.home = "home"
+exports.register = "register"
+exports.login = "login"
+exports.tasks = "tasks"
+exports.about = "about"

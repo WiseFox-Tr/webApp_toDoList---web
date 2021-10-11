@@ -1,0 +1,7 @@
+exports.home = "/"
+exports.register = "/register"
+exports.login = "/login"
+exports.tasks = "/tasks"
+exports.deleteTask = "/tasks/delete"
+exports.logout = "/logout"
+exports.about = "/about"
