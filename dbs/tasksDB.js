@@ -13,11 +13,7 @@ const taskSchema = mongoose.Schema({
 
 const TaskModel = mongoose.model("Task", taskSchema)
 
-exports.getAllTasks = function() {
-    return TaskModel.find({}).exec()  
-}
-
-exports.getTaskByOwnerId = function(ownerId) {
+exports.getTasksByOwnerId = function(ownerId) {
     return TaskModel.find({owner: ownerId})
 }
 
