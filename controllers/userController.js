@@ -3,22 +3,25 @@ const commonDB = require("../dbs/commonDB.js")
 const userDB = require("../dbs/userDB.js")
 const regex = require("../services/regex.js")
 const errorDisplayer = require("../services/errorDisplayer.js")
+const errors = require("../strings/errors.js")
+const routes = require("../strings/routes.js")
+const render = require("../strings/render.js")
 
 exports.registerUser = async function (req, res) {
     const email = req.body.email
     const password = req.body.password
     const passwordConfirmation = req.body.passwordConfirmation
     try {
-        if(!email || !password) throw Error("Missing email or password")
-        if(!regex.isPasswordEnoughStrong(password)) throw Error("Password is too weak...")
-        if(password !== passwordConfirmation) throw Error("Passwords are not matching")
+        if(!email || !password) throw Error(errors.missingMailOrPassword)
+        if(!regex.isPasswordEnoughStrong(password)) throw Error(errors.passwordTooWeak)
+        if(password !== passwordConfirmation) throw Error(errors.passwordsNotMatching)
 
         await commonDB.connectToDB()
         await userDB.saveUser(email, await bcrypt.hash(password, 10))
-        res.redirect("/login")
+        res.redirect(routes.login)
     } catch(e) {
-        console.log(`register error : ${e}`)
-        res.render("register", {errorMessage: errorDisplayer.display(e.message)})
+        console.log(`register : ${e}`)
+        res.render(render.register, {errorMessage: errorDisplayer.display(e.message)})
     } finally {
         commonDB.disconnectToDB()
     }
@@ -31,16 +34,16 @@ exports.authenticateUser = async function (email, password, done) {
         const user = await userDB.getUserByEmail(email)
 
         if(!user) {
-            return done(null, false, {message: `Aucun utilisateur pour le mail ${email}`})
+            return done(null, false, {message: errors.frNoUserFound})
         }
         if(await bcrypt.compare(password, user.password)) {
             return done(null, user)
         } else {
-            return done(null, false, {message: "Le mot de passe saisi ne correspond pas à celui de ce compte"})
+            return done(null, false, {message: errors.frBadPassword})
         }
     } catch(e) {
-        console.log(`log in error --> ${e}`)
-        return done(null, false, {message: "Oups .. un problème est survenu !"})
+        console.log(`log in : ${e}`)
+        return done(null, false, {message: errors.frOups})
     } finally {
         commonDB.disconnectToDB()
     }
@@ -53,7 +56,7 @@ exports.checkIfUserIsAuthentificated = function (req, res, next) {
         return next()
     }
     console.log("user is not authenticated")
-    res.redirect("/login")
+    res.redirect(routes.login)
     
 }
 
@@ -61,7 +64,7 @@ exports.checkIfUserIsAuthentificated = function (req, res, next) {
 exports.checkIfUserIsNotAuthenticated = function (req, res, next) {
     if(req.isAuthenticated()) {
         console.log("user is already authenticated")
-        return res.redirect("/tasks")
+        return res.redirect(routes.tasks)
     } 
     return next()
 }
@@ -72,7 +75,7 @@ exports.findUser = async function (id) {
         await commonDB.connectToDB()
         currentUser = await userDB.getUserById(id)
     } catch(e) {
-        console.log(`getUserById error --> ${e}`)
+        console.log(`find user : ${e}`)
     } finally {
         commonDB.disconnectToDB()
         return currentUser
@@ -82,5 +85,5 @@ exports.findUser = async function (id) {
 exports.logOut = function (req, res) {
     req.logOut()
     console.log("User successfully log out")
-    res.redirect("/")
+    res.redirect(routes.home)
 }

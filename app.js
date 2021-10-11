@@ -9,6 +9,8 @@ const initializePassport = require("./services/passportConfig.js")
 const tasksController = require("./controllers/tasksController.js") 
 const userController = require( "./controllers/userController.js")
 const date = require(__dirname + "/services/date.js")
+const routes = require("./strings/routes.js")
+const render = require("./strings/render.js")
 
 const app = express()
 app.use(express.urlencoded({extended: true}))
@@ -30,55 +32,56 @@ initializePassport(passport)
 
 app.use(methodOverride('_method'))
 
-app.get("/", userController.checkIfUserIsNotAuthenticated, function(req, res) {
-    console.log("GET request on url '/'")
-    res.render("home", {date: date.getCurrentDate()})
+app.get(routes.home, userController.checkIfUserIsNotAuthenticated, function(req, res) {
+    console.log(`GET request on url '${routes.home}'`)
+    res.render(render.home, {date: date.getCurrentDate()})
 })
 
-app.route("/register")
+app.route(routes.register)
     .get(userController.checkIfUserIsNotAuthenticated, function(req, res) {
-        console.log("GET request on url '/register'")
-        res.render("register", {errorMessage: null})
+        console.log(`GET request on url '${routes.register}'`)
+        res.render(render.register, {errorMessage: null})
     })
     .post(function(req, res) {
-        console.log("POST request on url '/register'")
+        console.log(`POST request on url '${routes.register}'`)
         userController.registerUser(req, res)
     })
 
-app.route("/login")
+app.route(routes.login)
     .get(userController.checkIfUserIsNotAuthenticated, function(req, res) {
-        console.log("GET request on url '/login'")
-        res.render("login")
+        console.log(`GET request on url '${routes.login}'`)
+        res.render(render.login)
     })
     .post(passport.authenticate('local', {
-        successRedirect: "/tasks",
-        failureRedirect: "/login",
+        successRedirect: routes.tasks,
+        failureRedirect: routes.login,
         failureFlash: true
     }))
 
-app.route("/logout")
+app.route(routes.logout)
     .delete(userController.checkIfUserIsAuthentificated, (req, res) => {
-        console.log("DELETE request on url '/logout'")
+        console.log(`DELETE request on url '${routes.logout}'`)
         userController.logOut(req, res)
     })    
     
-app.route("/tasks")
+app.route(routes.tasks)
     .get(userController.checkIfUserIsAuthentificated, function(req, res) {
-        console.log("GET request on url '/tasks'")
+        console.log(`GET request on url '${routes.tasks}'`)
         tasksController.displayTasksForCurrentUser(req, res) 
     })
     .post(function(req, res) {
-        console.log("POST request on url '/tasks'")
+        console.log(`POST request on url '${routes.tasks}'`)
         tasksController.addNewTask(req, res)
     })
 
-app.post("/tasks/delete", function(req, res) {
-    console.log("POST request on url '/tasks/delete'")
+app.post(routes.deleteTask, function(req, res) {
+    console.log(`POST request on url '${routes.deleteTask}'`)
     tasksController.deleteCheckedTask(req, res)
 })
 
-app.get("/about", function(req, res) {
-    res.render("about")
+app.get(routes.about, function(req, res) {
+    console.log(`GET request on url '${routes.about}'`)
+    res.render(render.about)
 })
 
 app.listen(process.env.PORT, function() {
