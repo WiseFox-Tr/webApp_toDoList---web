@@ -38,7 +38,7 @@ app.get("/", userController.checkIfUserIsNotAuthenticated, function(req, res) {
 app.route("/register")
     .get(userController.checkIfUserIsNotAuthenticated, function(req, res) {
         console.log("GET request on url '/register'")
-        res.render("register")
+        res.render("register", {errorMessage: null})
     })
     .post(function(req, res) {
         console.log("POST request on url '/register'")

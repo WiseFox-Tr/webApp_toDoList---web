@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt")
 const commonDB = require("../dbs/commonDB.js")
 const userDB = require("../dbs/userDB.js")
 const regex = require("../services/regex.js")
+const errorDisplayer = require("../services/errorDisplayer.js")
 
 exports.registerUser = async function (req, res) {
     const email = req.body.email
@@ -17,7 +18,7 @@ exports.registerUser = async function (req, res) {
         res.redirect("/login")
     } catch(e) {
         console.log(`register error : ${e}`)
-        res.redirect("/register")
+        res.render("register", {errorMessage: errorDisplayer.display(e.message)})
     } finally {
         commonDB.disconnectToDB()
     }
