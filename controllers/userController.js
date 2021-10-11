@@ -66,13 +66,16 @@ exports.checkIfUserIsNotAuthenticated = function (req, res, next) {
 }
 
 exports.getUserById = async function (id) {
+    let currentUser = null
     try {
         await commonDB.connectToDB()
-        await userDB.getUserById(id)
+        currentUser = await userDB.getUserById(id)
     } catch(e) {
         console.log(`getUserById error --> ${e}`)
+    } finally {
+        commonDB.disconnectToDB()
+        return currentUser
     }
-    commonDB.disconnectToDB()
 }
 
 exports.logOut = function (req, res) {
