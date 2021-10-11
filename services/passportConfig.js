@@ -17,7 +17,7 @@ function initialize(passport) {
 
     //serialize & deserialize user
     passport.serializeUser((user, done) => done(null, user.id))
-    passport.deserializeUser((id, done) => done(null, async () => userController.getUserById(id)))
+    passport.deserializeUser(async (id, done) => done(null, await userController.getUserById(id)))
 }
 
 module.exports = initialize
